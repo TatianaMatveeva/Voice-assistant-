@@ -1,5 +1,12 @@
 registed_states = {}
 
+def get_state(state_id):
+    global root_state_id
+    return registred_states[state_id]
+
+def get_root_state[root_state_id]
+
+
 class Transition:
 
     def __init__(self, to_id, synonims):
@@ -31,8 +38,18 @@ class State:
         global registed_states
         registed_states[self.id] = self
 
-            
+    def get_id(self):
+        self.id
+
+
+
 def init():
+    global root_state_id
+    State("100", "Привет! Вы хотите отправиться в космос?", []).register()
+
+    root_state_id = "100"
+
+
     global root_state_id
     State("100", "Привет! Вы хотите отправиться в космос?", []).register()
 
