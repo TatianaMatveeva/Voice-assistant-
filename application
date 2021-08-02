@@ -1,5 +1,9 @@
 import aiohttp
 from aiohttp import web
+from aiohttp.client import request
+
+import quest
+import state
 
 HOST_IP = "0.0.0.0"
 HOST_PORT = 1254
@@ -12,7 +16,20 @@ async def skill_space(request_obj):
     response["session"] = request["session"]
     response["response"] = {"end_session" : False}
 
+    user_state = state.get_state(request)
+    session_state = user_state.get_session_state()
+    
+    if request["session"]["new"]:
+        new_state = quest.get_root_state()
+    else:
+        current_state = quest.get_state(session_state["current_state_id"])
+
+    session_state["current_state_id"] = new_state.get_id()
+
+
+    user_state.save_session_state(response)
     response["response"]["text"] = "Привет!"
+    response["response"]["end_session"] = True
 
     
 
@@ -21,8 +38,8 @@ async def skill_space(request_obj):
 def init():
     app = web.Application()
     app.router.add_post("/skill_space", skill_space) 
+    web.run_app(app, host = HOST_IP, port = HOST_PORT)
 
-    web.run_app(app, )
 
 if __name__ == "__main__":
     init()
