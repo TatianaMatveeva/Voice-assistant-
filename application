@@ -23,15 +23,17 @@ async def skill_space(request_obj):
         new_state = quest.get_root_state()
     else:
         current_state = quest.get_state(session_state["current_state_id"])
-
-    session_state["current_state_id"] = new_state.get_id()
-
-
-    user_state.save_session_state(response)
-    response["response"]["text"] = "Привет!"
-    response["response"]["end_session"] = True
-
+        new_state = current_state.get_next_state(request["request"]["command")
     
+    response["response"]["text"] = new_state.get_text()
+
+    if not new_state.is_end_state():
+        session_state['current_state_id'] = new_state.get_id()
+        user_state.save_session_state(response)
+    else:
+        response["response"]["end_session"] = True
+
+   
 
     return web.json_response(response)
 
