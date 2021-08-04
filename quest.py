@@ -21,11 +21,12 @@ class Transition:
 
 class State:
 
-    def __init__(self, id, text, transitions, default_transition):
+    def __init__(self, id, text, transitions, default_transition, is_end = False):
         self.id = id
         self.text = text
         self.transitions = transitions
         self.default_transition = default_transition
+        self.is_end = is_end
 
     def get_next_state(self, user_input):
         for transition in self.transitions:
@@ -37,21 +38,23 @@ class State:
     def register(self):
         global registed_states
         registed_states[self.id] = self
+    
+    def get_text():
+        return self.get_text
 
     def get_id(self):
-        self.id
-
-
+        return self.id
+    
+    def is_end_state(self):
+        return self.is_end_state()
 
 def init():
     global root_state_id
-    State("100", "Привет! Вы хотите отправиться в космос?", []).register()
+    State("100", "Привет! Вы хотите отправиться в космос?", [
+        Transition()    
+    ], None).register()
 
+    State("900")
     root_state_id = "100"
 
-
-    global root_state_id
-    State("100", "Привет! Вы хотите отправиться в космос?", []).register()
-
-    root_state_id = "100"
-
+init()
